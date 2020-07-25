@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/TimWolla/action-install-haproxy.git"
   },
   "keywords": [
     "actions",
-    "node",
+    "haproxy",
     "setup"
   ],
-  "author": "",
+  "author": "Tim Düsterhus",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.4",
