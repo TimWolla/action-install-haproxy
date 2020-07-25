@@ -82,6 +82,21 @@ async function run(): Promise<void> {
     if ((matches = version_data.match(/^HA-Proxy version (\S+)/))) {
       core.setOutput('version', matches[1])
     }
+
+    if (stringToBool(core.getInput('install_vtest'))) {
+      const vtest_path = await core.group(`Install VTest`, async () => {
+        const vtest_tar_gz = await tc.downloadTool(
+          `https://github.com/vtest/VTest/archive/master.tar.gz`
+        )
+        const extracted = await tc.extractTar(vtest_tar_gz, undefined, [
+          'xv',
+          '--strip-components=1'
+        ])
+        await exec('make', ['-C', extracted, 'FLAGS=-O2 -s -Wall'])
+        return extracted
+      })
+      core.addPath(vtest_path)
+    }
   } catch (error) {
     core.setFailed(error.message)
   }

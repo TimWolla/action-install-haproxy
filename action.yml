@@ -5,6 +5,9 @@ inputs:
   branch:
     required: true
     description: 'HAProxy branch to install.'
+  install_vtest:
+    default: 'false'
+    description: 'Whether VTest should be installed as well.'
   use_lua:
     required: false
     default: 'false'
