@@ -20,6 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: install-haproxy
         with:
           branch: '2.2'
-      - run: haproxy -vv
+          use_openssl: 'true'
+      - name: Show full HAProxy version for ${steps.install-haproxy.outputs.version}
+        run: haproxy -vv

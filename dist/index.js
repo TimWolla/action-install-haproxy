@@ -1441,20 +1441,41 @@ function run() {
             });
             const OPTIONS = [];
             if (stringToBool_1.default(core.getInput('use_lua'))) {
-                yield exec_1.exec('sudo', ['apt-get', 'install', '-y', 'liblua5.3-dev']);
-                OPTIONS.push('USE_LUA=1');
+                yield core.group(`Install 'use_lua' build dependencies.`, () => __awaiter(this, void 0, void 0, function* () {
+                    yield exec_1.exec('sudo', ['apt-get', 'install', '-y', 'liblua5.3-dev']);
+                    OPTIONS.push('USE_LUA=1');
+                }));
             }
             if (stringToBool_1.default(core.getInput('use_openssl'))) {
-                yield exec_1.exec('sudo', ['apt-get', 'install', '-y', 'libssl-dev']);
-                OPTIONS.push('USE_OPENSSL=1');
+                yield core.group(`Install 'use_openssl' build dependencies.`, () => __awaiter(this, void 0, void 0, function* () {
+                    yield exec_1.exec('sudo', ['apt-get', 'install', '-y', 'libssl-dev']);
+                    OPTIONS.push('USE_OPENSSL=1');
+                    core.endGroup();
+                }));
             }
-            const haproxy_tar_gz = yield tc.downloadTool(`http://www.haproxy.org/download/${branch}/src/snapshot/haproxy-ss-LATEST.tar.gz`);
-            const extracted = yield tc.extractTar(haproxy_tar_gz, undefined, [
-                'x',
-                '--strip-components=1'
-            ]);
-            yield exec_1.exec('make', ['-C', extracted, 'TARGET=linux-glibc'].concat(OPTIONS));
-            core.addPath(extracted);
+            const haproxy_path = yield core.group(`Download and compile HAProxy`, () => __awaiter(this, void 0, void 0, function* () {
+                const haproxy_tar_gz = yield tc.downloadTool(`http://www.haproxy.org/download/${branch}/src/snapshot/haproxy-ss-LATEST.tar.gz`);
+                const extracted = yield tc.extractTar(haproxy_tar_gz, undefined, [
+                    'xv',
+                    '--strip-components=1'
+                ]);
+                yield exec_1.exec('make', ['-C', extracted, 'TARGET=linux-glibc'].concat(OPTIONS));
+                return extracted;
+            }));
+            core.addPath(haproxy_path);
+            let version_data = '';
+            const options = {
+                listeners: {
+                    stdout(data) {
+                        version_data += data.toString();
+                    }
+                }
+            };
+            yield exec_1.exec('haproxy', ['-vv'], options);
+            let matches;
+            if (matches = version_data.match(/^HA-Proxy version (\S+)/)) {
+                core.setOutput('version', matches[1]);
+            }
         }
         catch (error) {
             core.setFailed(error.message);

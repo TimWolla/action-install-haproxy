@@ -13,6 +13,9 @@ inputs:
     required: false
     default: 'false'
     description: 'Compile with SSL support.'
+outputs:
+  version:
+    description: 'The exact HAProxy version that was installed.'
 runs:
   using: 'node12'
   main: 'dist/index.js'
