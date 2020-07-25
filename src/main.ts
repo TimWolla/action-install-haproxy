@@ -51,7 +51,7 @@ async function run(): Promise<void> {
     }
 
     const haproxy_path = await core.group(
-      `Download and compile HAProxy`,
+      `Download and compile HAProxy.`,
       async () => {
         const haproxy_tar_gz = await tc.downloadTool(
           `http://www.haproxy.org/download/${branch}/src/snapshot/haproxy-ss-LATEST.tar.gz`
@@ -70,7 +70,7 @@ async function run(): Promise<void> {
     core.addPath(haproxy_path)
 
     if (stringToBool(core.getInput('install_vtest'))) {
-      const vtest_path = await core.group(`Install VTest`, async () => {
+      const vtest_path = await core.group(`Install VTest.`, async () => {
         const vtest_tar_gz = await tc.downloadTool(
           `https://github.com/vtest/VTest/archive/master.tar.gz`
         )
