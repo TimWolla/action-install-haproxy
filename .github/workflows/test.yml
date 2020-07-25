@@ -24,5 +24,5 @@ jobs:
         with:
           branch: '2.2'
           use_openssl: 'true'
-      - name: Show full HAProxy version for ${steps.install-haproxy.outputs.version}
+      - name: Show full HAProxy version for ${{ steps.install-haproxy.outputs.version }}
         run: haproxy -vv
