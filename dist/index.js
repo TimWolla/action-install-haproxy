@@ -1487,15 +1487,14 @@ function run() {
             if (stringToBool_1.default(core.getInput('use_lua'))) {
                 yield core.group(`Install 'use_lua' build dependencies.`, () => __awaiter(this, void 0, void 0, function* () {
                     yield exec_1.exec('sudo', ['apt-get', 'install', '-y', 'liblua5.3-dev']);
-                    OPTIONS.push('USE_LUA=1');
                 }));
+                OPTIONS.push('USE_LUA=1');
             }
             if (stringToBool_1.default(core.getInput('use_openssl'))) {
                 yield core.group(`Install 'use_openssl' build dependencies.`, () => __awaiter(this, void 0, void 0, function* () {
                     yield exec_1.exec('sudo', ['apt-get', 'install', '-y', 'libssl-dev']);
-                    OPTIONS.push('USE_OPENSSL=1');
-                    core.endGroup();
                 }));
+                OPTIONS.push('USE_OPENSSL=1');
             }
             const haproxy_path = yield core.group(`Download and compile HAProxy`, () => __awaiter(this, void 0, void 0, function* () {
                 const haproxy_tar_gz = yield tc.downloadTool(`http://www.haproxy.org/download/${branch}/src/snapshot/haproxy-ss-LATEST.tar.gz`);
@@ -1507,6 +1506,18 @@ function run() {
                 return extracted;
             }));
             core.addPath(haproxy_path);
+            if (stringToBool_1.default(core.getInput('install_vtest'))) {
+                const vtest_path = yield core.group(`Install VTest`, () => __awaiter(this, void 0, void 0, function* () {
+                    const vtest_tar_gz = yield tc.downloadTool(`https://github.com/vtest/VTest/archive/master.tar.gz`);
+                    const extracted = yield tc.extractTar(vtest_tar_gz, undefined, [
+                        'xv',
+                        '--strip-components=1'
+                    ]);
+                    yield exec_1.exec('make', ['-C', extracted, 'FLAGS=-O2 -s -Wall']);
+                    return extracted;
+                }));
+                core.addPath(vtest_path);
+            }
             let version_data = '';
             const options = {
                 listeners: {
@@ -1519,18 +1530,6 @@ function run() {
             let matches;
             if ((matches = version_data.match(/^HA-Proxy version (\S+)/))) {
                 core.setOutput('version', matches[1]);
-            }
-            if (stringToBool_1.default(core.getInput('install_vtest'))) {
-                const vtest_path = yield core.group(`Install VTest`, () => __awaiter(this, void 0, void 0, function* () {
-                    const vtest_tar_gz = yield tc.downloadTool(`https://github.com/vtest/VTest/archive/master.tar.gz`);
-                    const extracted = yield tc.extractTar(vtest_tar_gz, undefined, [
-                        'xv',
-                        '--strip-components=1'
-                    ]);
-                    yield exec_1.exec('make', ['-C', extracted, 'FLAGS=-O2 -s -Wall']);
-                    return extracted;
-                }));
-                core.addPath(vtest_path);
             }
         }
         catch (error) {

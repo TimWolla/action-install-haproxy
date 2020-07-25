@@ -37,18 +37,17 @@ async function run(): Promise<void> {
     if (stringToBool(core.getInput('use_lua'))) {
       await core.group(`Install 'use_lua' build dependencies.`, async () => {
         await exec('sudo', ['apt-get', 'install', '-y', 'liblua5.3-dev'])
-        OPTIONS.push('USE_LUA=1')
       })
+      OPTIONS.push('USE_LUA=1')
     }
     if (stringToBool(core.getInput('use_openssl'))) {
       await core.group(
         `Install 'use_openssl' build dependencies.`,
         async () => {
           await exec('sudo', ['apt-get', 'install', '-y', 'libssl-dev'])
-          OPTIONS.push('USE_OPENSSL=1')
-          core.endGroup()
         }
       )
+      OPTIONS.push('USE_OPENSSL=1')
     }
 
     const haproxy_path = await core.group(
@@ -69,19 +68,6 @@ async function run(): Promise<void> {
       }
     )
     core.addPath(haproxy_path)
-    let version_data = ''
-    const options = {
-      listeners: {
-        stdout(data: Buffer) {
-          version_data += data.toString()
-        }
-      }
-    }
-    await exec('haproxy', ['-vv'], options)
-    let matches
-    if ((matches = version_data.match(/^HA-Proxy version (\S+)/))) {
-      core.setOutput('version', matches[1])
-    }
 
     if (stringToBool(core.getInput('install_vtest'))) {
       const vtest_path = await core.group(`Install VTest`, async () => {
@@ -96,6 +82,20 @@ async function run(): Promise<void> {
         return extracted
       })
       core.addPath(vtest_path)
+    }
+
+    let version_data = ''
+    const options = {
+      listeners: {
+        stdout(data: Buffer) {
+          version_data += data.toString()
+        }
+      }
+    }
+    await exec('haproxy', ['-vv'], options)
+    let matches
+    if ((matches = version_data.match(/^HA-Proxy version (\S+)/))) {
+      core.setOutput('version', matches[1])
     }
   } catch (error) {
     core.setFailed(error.message)
