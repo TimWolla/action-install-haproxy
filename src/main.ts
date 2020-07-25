@@ -24,7 +24,7 @@ async function run(): Promise<void> {
       `http://www.haproxy.org/download/${branch}/src/snapshot/haproxy-ss-LATEST.tar.gz`
     )
     const extracted = await tc.extractTar(haproxy_tar_gz, undefined, [
-      'x',
+      'xv',
       '--strip-components=1'
     ])
     await exec('make', ['-C', extracted, 'TARGET=linux-glibc'].concat(OPTIONS))
