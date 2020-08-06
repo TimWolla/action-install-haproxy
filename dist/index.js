@@ -1496,7 +1496,7 @@ function run() {
                 }));
                 OPTIONS.push('USE_OPENSSL=1');
             }
-            const haproxy_path = yield core.group(`Download and compile HAProxy`, () => __awaiter(this, void 0, void 0, function* () {
+            const haproxy_path = yield core.group(`Download and compile HAProxy.`, () => __awaiter(this, void 0, void 0, function* () {
                 const haproxy_tar_gz = yield tc.downloadTool(`http://www.haproxy.org/download/${branch}/src/snapshot/haproxy-ss-LATEST.tar.gz`);
                 const extracted = yield tc.extractTar(haproxy_tar_gz, undefined, [
                     'xv',
@@ -1507,7 +1507,7 @@ function run() {
             }));
             core.addPath(haproxy_path);
             if (stringToBool_1.default(core.getInput('install_vtest'))) {
-                const vtest_path = yield core.group(`Install VTest`, () => __awaiter(this, void 0, void 0, function* () {
+                const vtest_path = yield core.group(`Install VTest.`, () => __awaiter(this, void 0, void 0, function* () {
                     const vtest_tar_gz = yield tc.downloadTool(`https://github.com/vtest/VTest/archive/master.tar.gz`);
                     const extracted = yield tc.extractTar(vtest_tar_gz, undefined, [
                         'xv',
