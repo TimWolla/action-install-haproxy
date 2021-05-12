@@ -96,6 +96,8 @@ async function run(): Promise<void> {
     let matches
     if ((matches = version_data.match(/^HA-Proxy version (\S+)/))) {
       core.setOutput('version', matches[1])
+    } else {
+      throw new Error('Unable to determine HAProxy version.')
     }
   } catch (error) {
     core.setFailed(error.message)
