@@ -1590,8 +1590,11 @@ function run() {
             };
             yield exec_1.exec('haproxy', ['-vv'], options);
             let matches;
-            if ((matches = version_data.match(/^HA-Proxy version (\S+)/))) {
+            if ((matches = version_data.match(/^HA-?Proxy version (\S+)/))) {
                 core.setOutput('version', matches[1]);
+            }
+            else {
+                throw new Error('Unable to determine HAProxy version.');
             }
         }
         catch (error) {
