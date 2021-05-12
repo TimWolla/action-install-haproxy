@@ -17,12 +17,23 @@ jobs:
           npm run all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        haproxy-versions:
+        - "1.7"
+        - "1.8"
+        - "1.9"
+        - "2.0"
+        - "2.1"
+        - "2.2"
+        - "2.3"
+        - "2.4"
     steps:
       - uses: actions/checkout@v2
       - uses: ./
         id: install-haproxy
         with:
-          branch: '2.2'
+          branch: ${{ matrix.haproxy-versions }}
           install_vtest: true
           use_openssl: true
           use_lua: true
