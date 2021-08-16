@@ -24,7 +24,7 @@
 import * as core from '@actions/core'
 import * as tc from '@actions/tool-cache'
 import {exec} from '@actions/exec'
-import stringToBool from './stringToBool'
+import stringToBool from './string-to-bool'
 
 async function run(): Promise<void> {
   try {

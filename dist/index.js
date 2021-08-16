@@ -1203,46 +1203,6 @@ module.exports = require("child_process");
 
 /***/ }),
 
-/***/ 136:
-/***/ (function(__unusedmodule, exports) {
-
-"use strict";
-
-/* The MIT License (MIT)
- *
- * Copyright (c) 2020 Tim Düsterhus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-Object.defineProperty(exports, "__esModule", { value: true });
-function stringToBool(s) {
-    if (/^(true|[1-9][0-9]*|y(?:es)?|on)$/i.test(s))
-        return true;
-    if (/^(false|0|n(?:o)?|off)$/i.test(s))
-        return false;
-    throw new Error(`Invalid value '${s}' given. Use one of true|y|yes|on|false|n|no|off or a number.`);
-}
-exports.default = stringToBool;
-
-
-/***/ }),
-
 /***/ 139:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -1592,7 +1552,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const tc = __importStar(__webpack_require__(533));
 const exec_1 = __webpack_require__(986);
-const stringToBool_1 = __importDefault(__webpack_require__(136));
+const string_to_bool_1 = __importDefault(__webpack_require__(356));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -1600,13 +1560,13 @@ function run() {
                 required: true
             });
             const OPTIONS = [];
-            if (stringToBool_1.default(core.getInput('use_lua'))) {
+            if (string_to_bool_1.default(core.getInput('use_lua'))) {
                 yield core.group(`Install 'use_lua' build dependencies.`, () => __awaiter(this, void 0, void 0, function* () {
                     yield exec_1.exec('sudo', ['apt-get', 'install', '-y', 'liblua5.3-dev']);
                 }));
                 OPTIONS.push('USE_LUA=1');
             }
-            if (stringToBool_1.default(core.getInput('use_openssl'))) {
+            if (string_to_bool_1.default(core.getInput('use_openssl'))) {
                 yield core.group(`Install 'use_openssl' build dependencies.`, () => __awaiter(this, void 0, void 0, function* () {
                     yield exec_1.exec('sudo', ['apt-get', 'install', '-y', 'libssl-dev']);
                 }));
@@ -1622,7 +1582,7 @@ function run() {
                 return extracted;
             }));
             core.addPath(haproxy_path);
-            if (stringToBool_1.default(core.getInput('install_vtest'))) {
+            if (string_to_bool_1.default(core.getInput('install_vtest'))) {
                 const vtest_path = yield core.group(`Install VTest.`, () => __awaiter(this, void 0, void 0, function* () {
                     const vtest_tar_gz = yield tc.downloadTool(`https://github.com/vtest/VTest/archive/master.tar.gz`);
                     const extracted = yield tc.extractTar(vtest_tar_gz, undefined, [
@@ -3282,6 +3242,46 @@ function coerce (version, options) {
 /***/ (function(module) {
 
 module.exports = require("string_decoder");
+
+/***/ }),
+
+/***/ 356:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+/* The MIT License (MIT)
+ *
+ * Copyright (c) 2020 Tim Düsterhus
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+function stringToBool(s) {
+    if (/^(true|[1-9][0-9]*|y(?:es)?|on)$/i.test(s))
+        return true;
+    if (/^(false|0|n(?:o)?|off)$/i.test(s))
+        return false;
+    throw new Error(`Invalid value '${s}' given. Use one of true|y|yes|on|false|n|no|off or a number.`);
+}
+exports.default = stringToBool;
+
 
 /***/ }),
 

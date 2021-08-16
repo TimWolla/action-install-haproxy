@@ -1,4 +1,4 @@
-import stringToBool from '../src/stringToBool'
+import stringToBool from '../src/string-to-bool'
 
 test('truthy', async () => {
   expect(stringToBool('on')).toBe(true)
