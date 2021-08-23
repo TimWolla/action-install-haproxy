@@ -1,4 +1,5 @@
 import stringToBool from '../src/string-to-bool'
+import {expect, test} from '@jest/globals'
 
 test('truthy', async () => {
   expect(stringToBool('on')).toBe(true)
