@@ -71,15 +71,15 @@ function run() {
                 required: true
             });
             const OPTIONS = [];
-            if (string_to_bool_1.default(core.getInput('use_lua'))) {
+            if ((0, string_to_bool_1.default)(core.getInput('use_lua'))) {
                 yield core.group(`Install 'use_lua' build dependencies.`, () => __awaiter(this, void 0, void 0, function* () {
-                    yield exec_1.exec('sudo', ['apt-get', 'install', '-y', 'liblua5.3-dev']);
+                    yield (0, exec_1.exec)('sudo', ['apt-get', 'install', '-y', 'liblua5.3-dev']);
                 }));
                 OPTIONS.push('USE_LUA=1');
             }
-            if (string_to_bool_1.default(core.getInput('use_openssl'))) {
+            if ((0, string_to_bool_1.default)(core.getInput('use_openssl'))) {
                 yield core.group(`Install 'use_openssl' build dependencies.`, () => __awaiter(this, void 0, void 0, function* () {
-                    yield exec_1.exec('sudo', ['apt-get', 'install', '-y', 'libssl-dev']);
+                    yield (0, exec_1.exec)('sudo', ['apt-get', 'install', '-y', 'libssl-dev']);
                 }));
                 OPTIONS.push('USE_OPENSSL=1');
             }
@@ -89,18 +89,18 @@ function run() {
                     'xv',
                     '--strip-components=1'
                 ]);
-                yield exec_1.exec('make', ['-C', extracted, 'TARGET=linux-glibc'].concat(OPTIONS));
+                yield (0, exec_1.exec)('make', ['-C', extracted, 'TARGET=linux-glibc'].concat(OPTIONS));
                 return extracted;
             }));
             core.addPath(haproxy_path);
-            if (string_to_bool_1.default(core.getInput('install_vtest'))) {
+            if ((0, string_to_bool_1.default)(core.getInput('install_vtest'))) {
                 const vtest_path = yield core.group(`Install VTest.`, () => __awaiter(this, void 0, void 0, function* () {
                     const vtest_tar_gz = yield tc.downloadTool(`https://github.com/vtest/VTest/archive/master.tar.gz`);
                     const extracted = yield tc.extractTar(vtest_tar_gz, undefined, [
                         'xv',
                         '--strip-components=1'
                     ]);
-                    yield exec_1.exec('make', ['-C', extracted, 'FLAGS=-O2 -s -Wall']);
+                    yield (0, exec_1.exec)('make', ['-C', extracted, 'FLAGS=-O2 -s -Wall']);
                     return extracted;
                 }));
                 core.addPath(vtest_path);
@@ -113,7 +113,7 @@ function run() {
                     }
                 }
             };
-            yield exec_1.exec('haproxy', ['-vv'], options);
+            yield (0, exec_1.exec)('haproxy', ['-vv'], options);
             let matches;
             if ((matches = version_data.match(/^HA-?Proxy version (\S+)/))) {
                 core.setOutput('version', matches[1]);
@@ -123,7 +123,12 @@ function run() {
             }
         }
         catch (error) {
-            core.setFailed(error.message);
+            if (error instanceof Error) {
+                core.setFailed(error.message);
+            }
+            else {
+                core.setFailed('Caught non-Error object.');
+            }
         }
     });
 }

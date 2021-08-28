@@ -100,7 +100,11 @@ async function run(): Promise<void> {
       throw new Error('Unable to determine HAProxy version.')
     }
   } catch (error) {
-    core.setFailed(error.message)
+    if (error instanceof Error) {
+      core.setFailed(error.message)
+    } else {
+      core.setFailed('Caught non-Error object.')
+    }
   }
 }
 
