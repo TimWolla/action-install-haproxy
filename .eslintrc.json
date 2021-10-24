@@ -8,6 +8,7 @@
       "project": "./tsconfig.json"
     },
     "rules": {
+      "i18n-text/no-en": "off",
       "eslint-comments/no-use": "off",
       "import/no-namespace": "off",
       "no-unused-vars": "off",
@@ -44,9 +45,7 @@
       "semi": "off",
       "@typescript-eslint/semi": ["error", "never"],
       "@typescript-eslint/type-annotation-spacing": "error",
-      "@typescript-eslint/unbound-method": "error",
-
-      "i18n-text/no-en": "off"
+      "@typescript-eslint/unbound-method": "error"
     },
     "env": {
       "node": true,
