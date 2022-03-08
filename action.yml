@@ -20,5 +20,5 @@ outputs:
   version:
     description: 'The exact HAProxy version that was installed.'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
