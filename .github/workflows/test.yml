@@ -16,6 +16,7 @@ jobs:
       - run: |
           npm run all
   test: # make sure the action works on a clean machine without building
+    name: HAProxy ${{ steps.install-haproxy.outputs.version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
