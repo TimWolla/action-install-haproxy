@@ -33,6 +33,7 @@ jobs:
         - "2.7"
         - "2.8"
         - "2.9"
+        - "3.0"
     steps:
       - uses: actions/checkout@v4
       - uses: ./
