@@ -23,10 +23,14 @@
 
 import * as core from '@actions/core'
 import * as tc from '@actions/tool-cache'
-import {exec} from '@actions/exec'
+import { exec } from '@actions/exec'
 import stringToBool from './string-to-bool'
 
-async function run(): Promise<void> {
+/**
+ * The main function for the action.
+ * @returns {Promise<void>} Resolves when the action is complete.
+ */
+export async function run(): Promise<void> {
   try {
     const branch = core.getInput('branch', {
       required: true
@@ -107,5 +111,3 @@ async function run(): Promise<void> {
     }
   }
 }
-
-run()

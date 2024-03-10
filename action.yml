@@ -1,6 +1,7 @@
 name: 'Compile and install HAProxy'
 description: 'Compiles and installs HAProxy into the PATH.'
 author: 'Tim Düsterhus'
+
 inputs:
   branch:
     required: true
@@ -16,9 +17,11 @@ inputs:
     required: false
     default: 'false'
     description: 'Compile with SSL support.'
+
 outputs:
   version:
     description: 'The exact HAProxy version that was installed.'
+
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: node20
+  main: dist/index.js
