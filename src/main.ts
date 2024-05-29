@@ -82,7 +82,9 @@ export async function run(): Promise<void> {
           'xv',
           '--strip-components=1'
         ])
-        await exec('make', ['-C', extracted, 'FLAGS=-O2 -s -Wall'])
+        await exec('make', ['FLAGS=-O2 -s -Wall'], {
+          cwd: extracted
+        })
         return extracted
       })
       core.addPath(vtest_path)

@@ -28876,7 +28876,9 @@ async function run() {
                     'xv',
                     '--strip-components=1'
                 ]);
-                await (0, exec_1.exec)('make', ['-C', extracted, 'FLAGS=-O2 -s -Wall']);
+                await (0, exec_1.exec)('make', ['FLAGS=-O2 -s -Wall'], {
+                    cwd: extracted
+                });
                 return extracted;
             });
             core.addPath(vtest_path);
