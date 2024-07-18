@@ -1,7 +1,7 @@
 # GitHub Actions: Install HAProxy
 
-This action allows you to easily install the latest HAProxy snapshot for
-a given branch.
+This action allows you to easily install the latest HAProxy snapshot for a given
+branch.
 
 ## Usage
 
