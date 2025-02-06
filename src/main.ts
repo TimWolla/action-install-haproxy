@@ -24,11 +24,12 @@
 import * as core from '@actions/core'
 import * as tc from '@actions/tool-cache'
 import { exec } from '@actions/exec'
-import stringToBool from './string-to-bool'
+import stringToBool from './string-to-bool.js'
 
 /**
  * The main function for the action.
- * @returns {Promise<void>} Resolves when the action is complete.
+ *
+ * @returns Resolves when the action is complete.
  */
 export async function run(): Promise<void> {
   try {
@@ -106,10 +107,7 @@ export async function run(): Promise<void> {
       throw new Error('Unable to determine HAProxy version.')
     }
   } catch (error) {
-    if (error instanceof Error) {
-      core.setFailed(error.message)
-    } else {
-      core.setFailed('Caught non-Error object.')
-    }
+    // Fail the workflow run if an error occurs
+    if (error instanceof Error) core.setFailed(error.message)
   }
 }
