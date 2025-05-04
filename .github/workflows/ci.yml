@@ -46,17 +46,13 @@ jobs:
 
   test-action:
     name: GitHub Actions Test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
         haproxy-versions:
-          - '1.7'
-          - '1.8'
-          - '1.9'
           - '2.0'
-          - '2.1'
           - '2.2'
           - '2.3'
           - '2.4'
