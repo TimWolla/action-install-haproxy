@@ -75,9 +75,9 @@ export async function run(): Promise<void> {
     core.addPath(haproxy_path)
 
     if (stringToBool(core.getInput('install_vtest'))) {
-      const vtest_path = await core.group(`Install VTest.`, async () => {
+      const vtest_path = await core.group(`Install VTest2.`, async () => {
         const vtest_tar_gz = await tc.downloadTool(
-          `https://github.com/vtest/VTest/archive/master.tar.gz`
+          `https://github.com/vtest/VTest2/archive/master.tar.gz`
         )
         const extracted = await tc.extractTar(vtest_tar_gz, undefined, [
           'xv',
