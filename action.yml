@@ -23,5 +23,5 @@ outputs:
     description: 'The exact HAProxy version that was installed.'
 
 runs:
-  using: node20
+  using: node24
   main: dist/index.js
