@@ -29905,7 +29905,7 @@ async function run() {
         coreExports.addPath(haproxy_path);
         if (stringToBool(coreExports.getInput('install_vtest'))) {
             const vtest_path = await coreExports.group(`Install VTest2.`, async () => {
-                const vtest_tar_gz = await toolCacheExports.downloadTool(`https://github.com/vtest/VTest2/archive/master.tar.gz`);
+                const vtest_tar_gz = await toolCacheExports.downloadTool(`https://code.vinyl-cache.org/vtest/VTest2/archive/main.tar.gz`);
                 const extracted = await toolCacheExports.extractTar(vtest_tar_gz, undefined, [
                     'xv',
                     '--strip-components=1'

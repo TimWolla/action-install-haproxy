@@ -77,7 +77,7 @@ export async function run(): Promise<void> {
     if (stringToBool(core.getInput('install_vtest'))) {
       const vtest_path = await core.group(`Install VTest2.`, async () => {
         const vtest_tar_gz = await tc.downloadTool(
-          `https://github.com/vtest/VTest2/archive/master.tar.gz`
+          `https://code.vinyl-cache.org/vtest/VTest2/archive/main.tar.gz`
         )
         const extracted = await tc.extractTar(vtest_tar_gz, undefined, [
           'xv',
