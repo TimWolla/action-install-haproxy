@@ -32700,10 +32700,11 @@ async function run() {
         addPath(haproxy_path);
         if (stringToBool(getInput('install_vtest'))) {
             const vtest_path = await group(`Install VTest2.`, async () => {
-                const vtest_tar_gz = await downloadTool(`https://code.vinyl-cache.org/vtest/VTest2/archive/main.tar.gz`);
-                const extracted = await extractTar(vtest_tar_gz, undefined, [
-                    'xv',
-                    '--strip-components=1'
+                const extracted = `${haproxy_path}/VTest2`;
+                await exec('git', [
+                    'clone',
+                    'https://code.vinyl-cache.org/vtest/VTest2.git',
+                    extracted
                 ]);
                 await exec('make', ['FLAGS=-O2 -s -Wall'], {
                     cwd: extracted
